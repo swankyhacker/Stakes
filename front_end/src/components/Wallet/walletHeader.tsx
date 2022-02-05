@@ -1,11 +1,11 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
 import { useTokenBalance, useEthers } from "@usedapp/core";
 import { formatUnits } from "@ethersproject/units";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 
 import Lock from "../../images/lock.png";
 import { Token } from "../main";
 import { useContract } from "../../hooks";
+import { WalletInfo } from "./walletInfo";
 
 interface WalletHeaderProps {
   token: Token;
@@ -25,7 +25,7 @@ export const WalletHeader = ({ token }: WalletHeaderProps) => {
     <div className={classes.header}>
       <div className={classes.walletInfo}>
         <span className={classes.headerTitle}>Wallet Balance</span>
-        <InfoOutlinedIcon className={classes.infoIcon}></InfoOutlinedIcon>
+        <WalletInfo />
       </div>
       <div className={classes.balances}>
         <div className={classes.balanceContainer}>
@@ -62,13 +62,6 @@ const useStyles = makeStyles((theme) => ({
   headerTitle: {
     color: "white",
     marginRight: "3px",
-  },
-  infoIcon: {
-    height: "15px",
-    color: "white",
-    "&:hover": {
-      color: "black",
-    },
   },
   balances: {
     display: "flex",

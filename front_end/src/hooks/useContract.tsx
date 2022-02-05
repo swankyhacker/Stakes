@@ -4,6 +4,7 @@ import { formatUnits } from "@ethersproject/units";
 
 import TokenFarm from "../chain_info/contracts/TokenFarm.json";
 import networkMapping from "../chain_info/deployments/map.json";
+import { useTokens } from "./useTokens";
 
 export const useContract = () => {
   const { chainId, account } = useEthers();
@@ -31,5 +32,21 @@ export const useContract = () => {
 
     return formattedBalance;
   }
-  return { useStakedBalance };
+
+  function useTokenValue(tokenAddress: string) {
+    const [value, decimals]: any =
+      useContractCall({
+        abi: tokenFarmInterface,
+        address: tokenFarmAddress,
+        method: "getTokenValue",
+        args: [tokenAddress],
+      }) ?? [];
+
+    const formattedBalance: number = value
+      ? parseFloat(formatUnits(value, decimals))
+      : 0;
+
+    return formattedBalance.toFixed(2);
+  }
+  return { useStakedBalance, useTokenValue };
 };
